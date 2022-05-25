@@ -1,8 +1,8 @@
 const http = require('http');
-
+const fs = require('fs') ; 
 const server = http.createServer((req, res) => {
     // console.log( req.url, req.headers);
-
+    const method = req.method ;  
     const urlW = req.url;
     if (urlW === '/') {
         res.write('<html>')
@@ -17,6 +17,17 @@ const server = http.createServer((req, res) => {
         res.write('</html>');
         return res.end();
     }
+   
+    if(urlW === '/message' && method === 'POST'){
+        fs.writeFileSync('message.txt','DUMMY') ; 
+        res.setHeader('Location','/') ; 
+        res.statusCode = 302 ; 
+        // response ( phản hồi ) chứa chủ yêu method GET ???
+        // require ( yêu cầu ) có chứa url và method 
+        return res.end(); 
+    }
+
+
     res.setHeader('Content-Type', 'text/html');
     const name = "Dang Duc Chinh";
     const age = 21;

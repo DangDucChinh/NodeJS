@@ -9,7 +9,7 @@ const server = http.createServer((req, res) => {
         res.write('<head><title>Input Node JS</title></head>');
         let html = `<body>
                         <form action="/message" method="POST">
-                          <input type="text" name=""/>
+                          <input type="text" name="message"/>
                           <button type="submit">Send</button>
                         </form>
                     </body>`
@@ -19,12 +19,26 @@ const server = http.createServer((req, res) => {
     }
    
     if(urlW === '/message' && method === 'POST'){
-        fs.writeFileSync('message.txt','DUMMY') ; 
-        res.setHeader('Location','/') ; 
-        res.statusCode = 302 ; 
-        // response ( phản hồi ) chứa chủ yêu method GET ???
-        // require ( yêu cầu ) có chứa url và method 
-        return res.end(); 
+       const body = [];
+
+       req.on('data',(chunk)=>{
+           console.log(chunk) ; 
+           body.push(chunk) ; 
+       });
+
+       req.on('end',()=>{
+            const parseBody = Buffer.concat(body).toString() ; 
+            console.log(parseBody) ;
+            fs.writeFileSync('message.txt',parseBody + 
+            '\n' + parseBody.split('=') + 
+            '\n' + parseBody.split('=')[0] + 
+            '\n' + parseBody.split('=')[1]);
+
+
+       });
+       res.statusCode = 302 ; 
+       res.setHeader('Location','/') ; 
+       return res.end();  
     }
 
 

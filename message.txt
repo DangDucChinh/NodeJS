@@ -1,1 +1,4 @@
-DUMMY
+message=dabcd
+message,dabcd
+message
+dabcd

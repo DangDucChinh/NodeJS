@@ -10,6 +10,7 @@ const server = http.createServer((req, res) => {
         let html = `<body>
                         <form action="/message" method="POST">
                           <input type="text" name="message"/>
+                          <input type="text" name="fullname"/>
                           <button type="submit">Send</button>
                         </form>
                     </body>`
@@ -33,8 +34,6 @@ const server = http.createServer((req, res) => {
             '\n' + parseBody.split('=') + 
             '\n' + parseBody.split('=')[0] + 
             '\n' + parseBody.split('=')[1]);
-
-
        });
        res.statusCode = 302 ; 
        res.setHeader('Location','/') ; 

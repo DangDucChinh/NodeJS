@@ -1,4 +1,4 @@
-message=dabcd
-message,dabcd
+message=dabcd&fullname=abcd
+message,dabcd&fullname,abcd
 message
-dabcd
+dabcd&fullname

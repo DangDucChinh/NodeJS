@@ -1,6 +1,7 @@
 const http = require('http'); // khởi tạo http chạy server
 const routes = require("./routes") ; 
 const express = require("express") ;
+const { Console } = require('console');
 
 
 const app = express() ; // cài đặt express = npm install --save express 
@@ -10,7 +11,15 @@ const app = express() ; // cài đặt express = npm install --save express
 // thiết lập server cho express đó 
 
 const server1 = http.createServer(app) ; // tạo 1 
-const server = http.createServer(routes.handler) ; 
+// const server = http.createServer(routes.handler) ; 
+app.use((req, res, next)=>{
+    console.log("-In the first middleware  have builed by use()") ; 
+    next() ; 
+});
 
+app.use((req, res ,next)=>{
+    console.log("-The second middleware have builed by use()") ; 
+});
 
-server.listen(3000); 
+// server.listen(3000); 
+server1.listen(3000); 

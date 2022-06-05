@@ -1,0 +1,24 @@
+{
+  "name": "js-first-app",
+  "version": "1.0.0",
+  "description": "Đây là lần đầu tiên học NODE JS , mong mọi chuyện sẽ đều nhẹ nhàng dễ dàng",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --inspect app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DangDucChinh/NodeJS.git"
+  },
+  "author": "Đặng Đức Chính",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DangDucChinh/NodeJS/issues"
+  },
+  "homepage": "https://github.com/DangDucChinh/NodeJS#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^1.18.3"
+  }
+}

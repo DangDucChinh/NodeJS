@@ -9,7 +9,7 @@ const requestHandler = (req, res) => {
                 <meta charset="UTF-8" />
                 </head>`);
         let html = `<body>
-                    <h1>Truy cập localhost( gửi request ), nhận thấy đường dẫn, Gửi Response là 1 file HTML</h1>
+                    <h1>Truy cập localhost( gửi request ), nhận thấy đường dẫn, Gửi Response là 1 file HTML thật à </h1>
                     <form action="/message" method="POST">
                       <input type="text" name="message"/>
                       <input type="text" name="fullname"/>
@@ -57,6 +57,6 @@ const requestHandler = (req, res) => {
 
 
 module.exports = {
-    requester : requestHandler ,
+    handler : requestHandler ,
     someText: "Có thể là một vài thứ gì đó chăng ?" 
-}
+} // ở đây thì kết xuất ra một Obj

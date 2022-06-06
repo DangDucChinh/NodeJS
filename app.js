@@ -4,22 +4,16 @@ const express = require("express") ;
 const { Console } = require('console');
 
 
-const app = express() ; // cài đặt express = npm install --save express 
-// xem phiên bản tại package.json 
-// const express = require("express") ; 
-// sử dụng express như 1 hàm ; tạo 1 biến app mới chứa express : 
-// thiết lập server cho express đó 
-
-const server1 = http.createServer(app) ; // tạo 1 
-// const server = http.createServer(routes.handler) ; 
-app.use((req, res, next)=>{
-    console.log("-In the first middleware  have builed by use()") ; 
+const app = express() ;
+app.use('/',(req, res, next)=>{
+    console.log('Luon xu li o day dau tien !') ; 
     next() ; 
 });
-
-app.use((req, res ,next)=>{
-    console.log("-The second middleware have builed by use()") ; 
+app.use('/add-product',(req, res ,next)=>{
+    res.send("<h1>The Add product page</h1>")
+})
+app.use('/',(req, res ,next)=>{
+    res.send("<h1>Đây là slash </h1>")
 });
 
-// server.listen(3000); 
-server1.listen(3000); 
+app.listen(3000) ; 

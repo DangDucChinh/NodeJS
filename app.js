@@ -7,7 +7,7 @@ const shopRouter = require('./routes/shop');
 
 app.use(parseBody.urlencoded({extended: false})) ;  // đây là 1 middleware , chịu trách nhiệm xử lí data từ req ??
 
-app.use(adminRouter);
+app.use('/admin',adminRouter);
 app.use(shopRouter) ; 
 app.use('/',(req, res, next)=>{
     res.status(404) ; 

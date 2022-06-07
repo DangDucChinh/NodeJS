@@ -9,5 +9,11 @@ app.use(parseBody.urlencoded({extended: false})) ;  // đây là 1 middleware , 
 
 app.use(adminRouter);
 app.use(shopRouter) ; 
+app.use('/',(req, res, next)=>{
+    res.status(404) ; 
+    res.send('<h1>PAGE NOT FOUND !!! </h1>'); 
+
+    // res.status(404).send('<h1> ... </h1>'); 
+});
 
 app.listen(3000) ; 

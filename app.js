@@ -1,6 +1,7 @@
 const express = require("express") ;
 const parseBody = require('body-parser') ; // thứ 1 : tạo parseBody bằng npm install --save parser-body ??
 const path = require('path');
+const rootDir = require('./util/path');
 const app = express() ;
 
 const adminRouter = require('./routes/admin') ;
@@ -14,7 +15,7 @@ app.use(shopRouter) ;
 
 app.use('/',(req, res, next)=>{  // xử lí tất cả đường dẫn lỗi 
     res.status(404) ; 
-    res.sendFile(path.join(__dirname, 'views','404.html')); // ko cần ../ ( thư mục cha của thằng đang chạy)
+    res.sendFile(path.join(rootDir, 'views','404.html')); // ko cần ../ ( thư mục cha của thằng đang chạy)
     // res.send('<h1>PAGE NOT FOUND !!! </h1>'); 
     // res.status(404).send('<h1> ... </h1>'); 
 });

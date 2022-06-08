@@ -9,6 +9,10 @@ const shopRouter = require('./routes/shop');
 
 app.use(parseBody.urlencoded({extended: false})) ;  // đây là 1 middleware , chịu trách nhiệm xử lí data từ req ??
 
+// Và nó có 'public' rồi nên các thành phần static bên trong sẽ ko có public nữa
+app.use(express.static(path.join(__dirname, 'public'))); // static dùng để triển khai các tệp tĩnh mà ko cần 
+// sự can thiệp của bên thứ 3 vd như express js 
+
 app.use('/admin',adminRouter);
 app.use(shopRouter) ; 
 

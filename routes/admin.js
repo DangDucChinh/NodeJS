@@ -1,12 +1,9 @@
 const express = require('express') ; 
 const router = express.Router() ; 
+const path = require('path');
 
 router.get('/add-product',(req, res , next)=>{
-    res.send(`<form action="add-product" method="POST">
-        <input type="text" name="title" />
-        <button type="submit">SEND UP SERVER</button>
-    </form>
-    `);
+    res.sendFile(path.join(__dirname, '../','views','add-product.html'));
 });
 
 router.post('/add-product',(req, res , next)=>{
@@ -15,3 +12,11 @@ router.post('/add-product',(req, res , next)=>{
 });
 
 module.exports = router ; 
+
+
+/*
+/là gốc của ổ đĩa hiện tại;
+./là thư mục hiện tại;
+../là cha của thư mục hiện tại.
+
+*/

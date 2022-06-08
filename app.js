@@ -9,7 +9,9 @@ app.use(parseBody.urlencoded({extended: false})) ;  // đây là 1 middleware , 
 
 app.use('/admin',adminRouter);
 app.use(shopRouter) ; 
-app.use('/',(req, res, next)=>{
+
+
+app.use('/',(req, res, next)=>{  // xử lí tất cả đường dẫn lỗi 
     res.status(404) ; 
     res.send('<h1>PAGE NOT FOUND !!! </h1>'); 
 

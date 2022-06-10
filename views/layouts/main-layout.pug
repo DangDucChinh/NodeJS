@@ -4,7 +4,6 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
         link(rel="stylesheet", href="/css/main.css")
         block styles 
         //- Đặt tên cho block
@@ -13,8 +12,8 @@ html(lang="en")
             nav.main-header__nav 
                 ul.main-header__item-list
                     li.main-header__item 
-                        a(href="/") Shop link pug 
+                        a(href="/" , class=(path==='/' ? 'active' : '')) Shop link pug 
                     li.main-header__item 
-                        a(href="/admin/add-product") Add product pug
+                        a(href="/admin/add-product" ,class=(path==='/admin/add-product' ? 'active' : '')) Add product pug
     block content 
     //- Đặt tên cho khối phần tử blocked 

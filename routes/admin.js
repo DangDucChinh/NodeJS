@@ -5,10 +5,8 @@ const rootDir = require('../util/path'); // rootDir : thư mục gốc
 const products = [];
 
 router.get('/add-product',(req, res , next)=>{
-    // res.sendFile(path.join(__dirname, '../','views','add-product.html'));
-    // res.sendFile(path.join(rootDir,'views','add-product.html'));
-
-    res.render('add-product',{titlePage: "GET ADD-PRODUCT BY PUG"}); // muon render thi phai có PUG o views
+    
+    res.render('add-product',{titlePage: "GET ADD-PRODUCT BY PUG",path: '/admin/add-product'}); // muon render thi phai có PUG o views
 });
 
 router.post('/add-product',(req, res , next)=>{

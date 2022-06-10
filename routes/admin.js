@@ -2,6 +2,7 @@ const express = require('express') ;
 const router = express.Router() ; 
 const path = require('path');
 const rootDir = require('../util/path'); // rootDir : thư mục gốc
+const products = [];
 
 router.get('/add-product',(req, res , next)=>{
     // res.sendFile(path.join(__dirname, '../','views','add-product.html'));
@@ -10,11 +11,13 @@ router.get('/add-product',(req, res , next)=>{
 });
 
 router.post('/add-product',(req, res , next)=>{
-    console.log(req.body) ; 
+    products.push({title: req.body.title, name: req.body.name});
     res.redirect('/');
 });
 
-module.exports = router ; 
+exports.router = router ;
+exports.products = products ; 
+// module.exports = router ; 
 
 
 /*

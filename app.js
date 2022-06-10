@@ -4,24 +4,20 @@ const path = require('path');
 const rootDir = require('./util/path');
 const app = express() ;
 
-const adminRouter = require('./routes/admin') ;
+const adminData = require('./routes/admin') ;
 const shopRouter = require('./routes/shop');
 
 app.use(parseBody.urlencoded({extended: false})) ;  // đây là 1 middleware , chịu trách nhiệm xử lí data từ req ??
 
 // Và nó có 'public' rồi nên các thành phần static bên trong sẽ ko có public nữa
-app.use(express.static(path.join(__dirname, 'public'))); // static dùng để triển khai các tệp tĩnh mà ko cần 
-// sự can thiệp của bên thứ 3 vd như express js 
-
-app.use('/admin',adminRouter);
+app.use(express.static(path.join(__dirname, 'public'))); 
+app.use('/admin',adminData.router);
 app.use(shopRouter) ; 
 
 
 app.use('/',(req, res, next)=>{  // xử lí tất cả đường dẫn lỗi 
     res.status(404) ; 
     res.sendFile(path.join(rootDir, 'views','404.html')); // ko cần ../ ( thư mục cha của thằng đang chạy)
-    // res.send('<h1>PAGE NOT FOUND !!! </h1>'); 
-    // res.status(404).send('<h1> ... </h1>'); 
 });
 
 app.listen(3000) ; 

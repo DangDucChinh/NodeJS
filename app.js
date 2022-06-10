@@ -4,12 +4,16 @@ const path = require('path');
 const rootDir = require('./util/path');
 const app = express() ;
 
+app.set('view engine', 'pug');
+app.set('views','views');
+
 const adminData = require('./routes/admin') ;
 const shopRouter = require('./routes/shop');
 
 app.use(parseBody.urlencoded({extended: false})) ;  // đây là 1 middleware , chịu trách nhiệm xử lí data từ req ??
 
-// Và nó có 'public' rồi nên các thành phần static bên trong sẽ ko có public nữa
+
+
 app.use(express.static(path.join(__dirname, 'public'))); 
 app.use('/admin',adminData.router);
 app.use(shopRouter) ; 

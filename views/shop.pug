@@ -4,9 +4,9 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Shop Page PUG
+        title #{titlepage}
         link(rel="stylesheet", href="/css/main.css")
-        link(rel="stylesheet", href="/css/add_product.css")
+        link(rel="stylesheet", href="/css/product.css")
 
     body 
         header.main-header
@@ -17,5 +17,21 @@ html(lang="en")
                     li.main-header__item 
                         a(href="/admin/add-product") Add product pug
         main
-            h1 Myproduct pug 
-            p List of product pug....
+        if(prods.length > 0)
+            each product in prods 
+                .grid
+                    article.card.product-item 
+                        header.card__header
+                            h1.product__title #{product.title}
+                            h1.product__title #{product.name}
+                        .card__image
+                            img(src="https://i.pinimg.com/originals/5b/02/64/5b0264cdaf536e7a6b62fdc920658b34.jpg", alt="The book is me get")
+                        .card__content
+                            h2.product_price $19.90
+                            p.product__description A very interesting booko about so many event more I know are you understand?
+                        .card_actions 
+                            button.btn Add to Cart
+                            br
+        else 
+            h1 This page is not any book !!! Can you add book in the page ???
+                            

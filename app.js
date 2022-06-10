@@ -21,7 +21,8 @@ app.use(shopRouter) ;
 
 app.use('/',(req, res, next)=>{  // xử lí tất cả đường dẫn lỗi 
     res.status(404) ; 
-    res.sendFile(path.join(rootDir, 'views','404.html')); // ko cần ../ ( thư mục cha của thằng đang chạy)
+    // res.sendFile(path.join(rootDir, 'views','404.html')); // ko cần ../ ( thư mục cha của thằng đang chạy)
+    res.render('404') ; // ko cần đối tượng truyền vào vì thế chúng ta mới mang đến 1 cái page not found
 });
 
 app.listen(3000) ; 

@@ -5,7 +5,7 @@ const datalogin = [] ; // khai báo mảng rỗng chứa dữ liệu login từ 
 const rootDir = require('../util/path'); // rootDir : thư mục gốc
 router.get('/login-add-data', (req, res , next)=>{
     res.render('login', {
-        titlePage: 'This is new page' , // 
+        pageTitle: 'This is new page' , // 
         path: '/login/login-add-data',
         loginCSS: true , 
         activeLogin: true, 

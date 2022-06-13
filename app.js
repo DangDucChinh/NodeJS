@@ -3,14 +3,9 @@ const parseBody = require('body-parser') ; // thứ 1 : tạo parseBody bằng n
 const path = require('path');
 const rootDir = require('./util/path');
 const app = express() ;
-const expressHbs = require('express-handlebars'); // 1.Xu li view = Handlebars
 
-app.engine('hbs',expressHbs({
-    layoutsDir: 'views/layouts/', // thư mục layout
-    defaultLayout: 'main-layout',// layout mặc định
-    extname : 'hbs'
-})); //2. chuỗi và bật hàm
-app.set('view engine','hbs');  // 3. Cấu hình view engine
+
+app.set('view engine','ejs');  // Cấu hình view engine
 // app.set('view engine', 'pug');
 app.set('views','views');
 

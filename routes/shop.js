@@ -14,7 +14,7 @@ router.get('/',(req, res , next)=>{
         log: loginData.datalogin, // hoặc cũng có thể sử dụng trực tiếp như ở đây (2)
         hasLogindata: loginData.datalogin.length > 0 , // tức mảng datalogin > 0 
         prods: products,
-        titlepage: 'New TITLE PAGE' , 
+        pageTitle: 'New TITLE PAGE' , 
         path: '/' , 
         hasProducts: products.length > 0,
         activeShop: true,

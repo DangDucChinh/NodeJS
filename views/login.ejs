@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle%></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <nav class="main-header__nav">
+            <ul class="main-header__item-list">
+                <li class="main-header__item"><a href="/">Shop</a></li>
+                <li class="main-header__item"><a class="" href="/admin/add-product">Add Product</a></li>
+                <li class="main-header__item"><a class="" href="/login/login-add-data">Add Product</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>This is a LOGIN PAGE by Dang Duc Chinh</h1>
+    <form class="product-form" action="/login/login-add-data" method="POST">
+        <div class="form-control">
+            <label for="title">Name : </label>
+            <input type="text" name="name" id="name">
+            <br>
+            <label for="name">Email : </label>
+            <input type="text" name="email" id="email">
+        </div>
+
+        <button class="btn" type="submit">UP LGDT on SERVER</button>
+    </form>
+    </main>
+</body>
+
+</html>

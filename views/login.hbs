@@ -1,0 +1,22 @@
+<title>{{titlePage}}</title>
+{{#if loginCSS}}
+    <link rel="stylesheet" href="/css/login.css">
+{{/if}}
+<main>
+    <h1>This is a new page with first hbs page by Dang Duc Chinh</h1>
+    <form class="product-form" action="/login/login-add-data" method="POST">
+        <div class="form-control">
+            <label for="title">Name : </label>
+            <input type="text" name="name" id="name">
+            <br>
+            <label for="name">Email : </label>
+            <input type="text" name="email" id="email">
+        </div>
+
+        <button class="btn" type="submit">UP LGDT on SERVER</button>
+    </form>
+</main>
+{{!--
+Logic trực quan của CSS hay html thì có thể được viết ở bất cứ đâu : chẳng hạn ở trong layout hbs hoặc trong a
+hbs  
+ --}}

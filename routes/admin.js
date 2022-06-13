@@ -1,12 +1,16 @@
-const express = require('express') ; 
-const router = express.Router() ; 
+const express = require('express') ; // tạo ra express
+const router = express.Router() ;  
 const path = require('path');
 const rootDir = require('../util/path'); // rootDir : thư mục gốc
 const products = [];
 
 router.get('/add-product',(req, res , next)=>{
-    
-    res.render('add-product',{titlePage: "GET ADD-PRODUCT BY PUG",path: '/admin/add-product'}); // muon render thi phai có PUG o views
+    res.render('add-product',{
+        titlePage: "GET ADD-PRODUCT BY PUG",
+        path: '/admin/add-product',
+        activeAddProduct: true ,
+        formCSS: true , 
+    }); // muon render thi phai có PUG o views
 });
 
 router.post('/add-product',(req, res , next)=>{

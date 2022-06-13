@@ -1,38 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add Product</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/forms.css">
-    <link rel="stylesheet" href="/css/product.css">
-</head>
+<title>{{titlePage}}</title>
+{{#if formCSS}} 
+{{!-- Đánh giá xem Form CSS true hay false , và kết quả là true bởi vì đối tượng ta truyền vào ta để nó là true --}}
+    <link rel="stylesheet" href="/css/form.css">
+{{/if}}
+<main>
+    <form class="product-form" action="/admin/add-product" method="POST">
+        <div class="form-control">
+            <label for="title">Title : </label>
+            <input type="text" name="title" id="title">
+            <br>
+            <label for="name">Name : </label>
+            <input type="text" name="name" id="name">
+        </div>
 
-<body>
-    <header class="main-header">
-        <nav class="main-header__nav">
-            <ul class="main-header__item-list">
-                <li class="main-header__item"><a href="/">Shop</a></li>
-                <li class="main-header__item"><a class="active" href="/admin/add-product">Add Product</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <form class="product-form" action="/admin/add-product" method="POST">
-            <div class="form-control">
-                <label for="title">Title : </label>
-                <input type="text" name="title" id="title">
-                <br> 
-                <label for="name">Name : </label>
-                <input type="text" name="name" id="name">
-            </div>
-
-            <button class="btn" type="submit">Add Product</button>
-        </form>
-    </main>
-</body>
-
-</html>
+        <button class="btn" type="submit">Add Product</button>
+    </form>
+</main>

@@ -1,3 +1,12 @@
+h1{
+    color: rgb(56, 211, 4);
+    text-align: center;
+    text-decoration: underline;
+}
+p{
+    transform: rotateX(2);
+    text-decoration-color: aqua;
+}
 .form-control {
     margin: 1rem 0;
 }
@@ -13,11 +22,11 @@
 }
 
 .form-control input {
-    border: 1px solid #a1a1a1;
+    border: 1px solid #ff0000;
     font: inherit;
     border-radius: 2px;
 }
 
 .form-control input:focus {
-    outline-color: #00695c;
+    outline-color: #b2f300;
 }

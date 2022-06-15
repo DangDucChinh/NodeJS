@@ -1,4 +1,4 @@
-const products = []; // 
+const Product = require('../models/product');
 const logins = []; 
 
 exports.getAddProduct = (req, res , next)=>{
@@ -11,21 +11,21 @@ exports.getAddProduct = (req, res , next)=>{
 }
 
 exports.postAddProduct = (req, res, next) => {
-    products.push({ 
-        title: req.body.title, 
-        name: req.body.name 
-    });
+    const product = new Product(req.body.title, req.body.name) ; 
+    console.log(product.title + ' / ' + product.name) ; 
+    product.save();
     res.redirect('/');
 }
 
 //=> Lấy ra sản phẩm và LOGIN
 exports.getProducts = (req, res , next)=>{
+    const products = Product.fetchAll() ;
     res.render('shop', {
         log: logins, // hoặc cũng có thể sử dụng trực tiếp như ở đây (2)
         hasLogindata: logins.length > 0 , // tức mảng datalogin > 0 
-        
+
         prods: products,
-        hasProducts: products.length > 0,
+        hasProducts: products.size > 0,
         pageTitle: 'New TITLE PAGE' , 
         path: '/' , 
         activeShop: true,

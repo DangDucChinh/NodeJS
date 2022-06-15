@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'); //1. tạo express
 const router = express.Router() ;  // tạo ra router
 const path = require('path'); // tính toán đường dẫn
 const loginController = require('../controllers/products');

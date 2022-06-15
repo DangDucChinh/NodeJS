@@ -19,19 +19,21 @@ exports.postAddProduct = (req, res, next) => {
 
 //=> Lấy ra sản phẩm và LOGIN
 exports.getProducts = (req, res , next)=>{
-    const products = Product.fetchAll() ;
-    res.render('shop', {
-        log: logins, // hoặc cũng có thể sử dụng trực tiếp như ở đây (2)
-        hasLogindata: logins.length > 0 , // tức mảng datalogin > 0 
-
-        prods: products,
-        hasProducts: products.size > 0,
-        pageTitle: 'New TITLE PAGE' , 
-        path: '/' , 
-        activeShop: true,
-        productCSS: true,
-    }); 
+    Product.fetchAll(products => {
+        res.render('shop', {
+            log: [], // hoặc cũng có thể sử dụng trực tiếp như ở đây (2)
+            // hasLogindata: logins.length > 0 , // tức mảng datalogin > 0 
+            hasLogindata : false ,
+            prods: products,
+            hasProducts: products.length > 0,
+            pageTitle: 'New TITLE PAGE' , 
+            path: '/' , 
+            activeShop: true,
+            productCSS: true,
+        }); 
+    }) ;
 }
+
 
 exports.getAddLogin = (req, res , next)=>{
     res.render('login', { // login ở đây là login.ejs chứ ko phải là đường dẫn

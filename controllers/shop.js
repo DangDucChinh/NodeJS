@@ -10,11 +10,11 @@ exports.getProducts = (req, res, next) => {
   });
 };
 
-exports.getProduct = (req , res , next)=>{
+exports.getProduct = (req , res , next)=>{ // sau ? là param
   const prodId = req.params.productId ; 
   Product.findById(prodId, product=>{
     res.render('shop/product-detail', {
-      prod : product , 
+      product : product , 
       pageTitle: product.title,
       path : '/products', 
     }) 
@@ -38,6 +38,12 @@ exports.getCart = (req, res, next) => {
     pageTitle: 'Your Cart'
   });
 };
+
+exports.postCart = (req , res , next)=>{
+  const productId = req.body.productId ; 
+    console.log(productId) ; 
+    res.redirect('/') ; 
+}
 
 exports.getOrders = (req, res, next) => {
   res.render('shop/orders', {

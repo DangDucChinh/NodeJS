@@ -7,8 +7,18 @@ const p = path.join(
   'products.json'
 );
 
-const getProductsFromFile = cb => {
-  fs.readFile(p, (err, fileContent) => {
+// const getProductsFromFile = cb => {
+//   fs.readFile(p, (err, fileContent) => {
+//     if (err) {
+//       cb([]);
+//     } else {
+//       cb(JSON.parse(fileContent));
+//     }
+//   });
+// };
+
+function getProductsFromFile(cb){
+  fs.readFile(p, (err, fileContent) => {  
     if (err) {
       cb([]);
     } else {
@@ -27,7 +37,7 @@ module.exports = class Product {
 
   save() {
     this.id = Math.random().toString() ;  
-    getProductsFromFile(products => {
+    getProductsFromFile(products => { // biến đại diện cho mảng mà cb([]) đã truyền vào trc đó
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), err => {
         console.log(err);
@@ -46,3 +56,4 @@ module.exports = class Product {
     });
   }
 };
+

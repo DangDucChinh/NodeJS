@@ -47,7 +47,7 @@ exports.getCart = (req, res, next) => {
       // for(p of cartProducts){
       //   console.log(p.productData.title + " -> " + p.qty + "\n") ; 
       // }
-      // => Như vậy productData là 1 mảng các 
+      // => so sánh ID trong products.json và cart.product , sau đó nạp vào 1 mảng mới hoàn toàn  
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',

@@ -42,6 +42,7 @@ module.exports = class Cart {
     // tìm kiếm sản phẩm có id , nếu ko có thì return , nếu có thì xóa toàn bộ ,
     // và update lại cart.products
     fs.readFile(p, (err, fileContent) => {
+      // xoa cac muc trong gio hang 
       if (err) {
         return;
       }

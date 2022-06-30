@@ -38,7 +38,9 @@ module.exports = class Cart {
     });
   }
 
-  static deleteProduct(id, productPrice) {
+  static deleteProduct(id, productPrice) { 
+    // tìm kiếm sản phẩm có id , nếu ko có thì return , nếu có thì xóa toàn bộ ,
+    // và update lại cart.products
     fs.readFile(p, (err, fileContent) => {
       if (err) {
         return;

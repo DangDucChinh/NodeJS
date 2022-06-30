@@ -33,9 +33,9 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  Cart.getCart(cart => {
+  Cart.getCart(cart => { 
     Product.fetchAll(products => {
-      const cartProducts = [];
+      const cartProducts = []; 
       for (product of products) {
         const cartProductData = cart.products.find(
           prod => prod.id === product.id
@@ -43,10 +43,11 @@ exports.getCart = (req, res, next) => {
         if (cartProductData) {
           cartProducts.push({ productData: product, qty: cartProductData.qty });
         }
-      }
-      for(p of cartProducts){
-        console.log(p.productData.title + " -> " + p.qty + "\n") ; 
-      }
+      }     
+      // for(p of cartProducts){
+      //   console.log(p.productData.title + " -> " + p.qty + "\n") ; 
+      // }
+      // => Như vậy productData là 1 mảng các 
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',

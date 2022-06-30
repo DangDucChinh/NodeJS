@@ -21,12 +21,9 @@
                             <h2 class="product__price">$<%= product.price %></h2>
                             <p class="product__description"><%= product.description %></p>
                         </div>
-                            
-                        <!-- <form action="/cart" method="POST">
-                            <button class="btn" type="submit">Add to cart</button>
-                            <input type="hidden" name="productId" value="<%= product.id %>" />
-                        </form> -->
-                        <%- include('../includes/add-to-cart.ejs', {prod: product}) %>
+                        <div class="card__actions">
+                            <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+                        </div>
                     </article>
                 <% } %>
             </div>

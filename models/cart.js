@@ -38,11 +38,8 @@ module.exports = class Cart {
     });
   }
 
-  static deleteProduct(id, productPrice) { 
-    // tìm kiếm sản phẩm có id , nếu ko có thì return , nếu có thì xóa toàn bộ ,
-    // và update lại cart.products
+  static deleteProduct(id, productPrice) {
     fs.readFile(p, (err, fileContent) => {
-      // xoa cac muc trong gio hang , sua loi xoa san pham trong view , controller va router
       if (err) {
         return;
       }
@@ -55,7 +52,9 @@ module.exports = class Cart {
       updatedCart.products = updatedCart.products.filter(
         prod => prod.id !== id
       );
-      updatedCart.totalPrice = updatedCart.totalPrice - productPrice * productQty;
+      updatedCart.totalPrice =
+        updatedCart.totalPrice - productPrice * productQty;
+
       fs.writeFile(p, JSON.stringify(updatedCart), err => {
         console.log(err);
       });

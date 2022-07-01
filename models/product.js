@@ -1,4 +1,3 @@
-const database = require('../util/database');// có quyền truy cập vào pool
 const db = require('../util/database');
 
 const Cart = require('./cart');
@@ -13,10 +12,11 @@ module.exports = class Product {
   }
 
   save() {
-    
+   
   }
 
   static deleteById(id) {
+    
   }
 
   static fetchAll() {
@@ -24,6 +24,6 @@ module.exports = class Product {
   }
 
   static findById(id) {
-   
+    
   }
 };

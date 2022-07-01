@@ -1,43 +1,25 @@
 <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/cart.css">
     </head>
 
     <body>
-        <!-- Hiển thi các mặt hàng đang có trong giỏ hàng lên trang giỏ hàng va xoa cac muc tronh trang gio hang  -->
         <%- include('../includes/navigation.ejs') %>
-            <main>
-                <% if (products.length> 0) { %>
-                    <h1>Tổng Giá Là : <%= totalPrice %> </h1>
-                    <ul>
-                        <% products.forEach(p=> { %>
-                            <li>
-                                <form action="/cart-delete-item" method="POST">
-                                <article class="card product-item">
-                                    <div>
-                                        <div class="col-4">
-                                            <img width="300" src="<%= p.productData.imageUrl %>" alt="<%= p.productData.title %>">
-                                        </div>
-                                        <div class="col-4">
-                                            <h2 class="product__price">$
-                                                <%= p.productData.price %>
-                                            </h2>
-                                            <p class="product__description">
-                                                <%= p.productData.description %>
-                                            </p>
-                                        </div>
-                                        <div class="col-4">
-                                            <b>TÊN : <%= p.productData.title %></b><br>
-                                            <b>SỐ LƯỢNG : (<%= p.qty %>)</b>
-                                            <input type="hidden" value="<%= p.productData.id %>" name="productId">
-                                            <button class="btn" type="submit">Delete</button>
-                                        </div>
-                                    </div>
-                                </article>
-                                </form>
-                            </li>
-                            <% }) %>
-                    </ul>
-                    <% } else { %>
-                        <h1>No Products in Cart!</h1>
-                        <% } %>
-            </main>
-            <%- include('../includes/end.ejs') %>
+        <main>
+            <% if (products.length > 0) { %>
+                <ul class="cart__item-list">
+                    <% products.forEach(p => { %>
+                        <li class="cart__item">
+                            <h1><%= p.productData.title %></h1>
+                            <h2>Quantity: <%= p.qty %></h2>
+                            <form action="/cart-delete-item" method="POST">
+                                <input type="hidden" value="<%= p.productData.id %>" name="productId">
+                                <button class="btn danger" type="submit">Delete</button>
+                            </form>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <h1>No Products in Cart!</h1>
+            <% } %>
+        </main>
+        <%- include('../includes/end.ejs') %>

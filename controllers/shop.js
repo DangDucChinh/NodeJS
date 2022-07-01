@@ -2,13 +2,15 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('shop/product-list', {
-      prods: products,
-      pageTitle: 'All Products',
-      path: '/products'
-    });
-  });
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      res.render('shop/product-list', {
+        prods: rows,
+        pageTitle: 'All Products',
+        path: '/products'
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 exports.getProduct = (req, res, next) => {
@@ -24,22 +26,20 @@ exports.getProduct = (req, res, next) => {
 
 exports.getIndex = (req, res, next) => {
   Product.fetchAll()
-    .then(( [rows, field] )=>{
+    .then(([rows, fieldData]) => {
       res.render('shop/index', {
         prods: rows,
         pageTitle: 'Shop',
         path: '/'
       });
     })
-    .catch(err=>{
-      console.log(err) ; 
-    });
+    .catch(err => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
-  Cart.getCart(cart => { 
+  Cart.getCart(cart => {
     Product.fetchAll(products => {
-      const cartProducts = []; 
+      const cartProducts = [];
       for (product of products) {
         const cartProductData = cart.products.find(
           prod => prod.id === product.id
@@ -47,16 +47,11 @@ exports.getCart = (req, res, next) => {
         if (cartProductData) {
           cartProducts.push({ productData: product, qty: cartProductData.qty });
         }
-      }     
-      // for(p of cartProducts){
-      //   console.log(p.productData.title + " -> " + p.qty + "\n") ; 
-      // }
-      // => so sánh ID trong products.json và cart.product , sau đó nạp vào 1 mảng mới hoàn toàn  
+      }
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',
-        products: cartProducts , 
-        totalPrice:  cart.totalPrice
+        products: cartProducts
       });
     });
   });

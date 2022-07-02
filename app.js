@@ -40,7 +40,7 @@ User.hasMany(Product);
 User.hasOne(Cart);
 Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem });
-Product.belongsToMany(Cart, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });       
 
 sequelize
   .sync({ force: true })

@@ -26,7 +26,7 @@ exports.getProduct = (req, res, next) => {
   //     });
   //   })
   //   .catch(err => console.log(err));
-  Product.findByPk(prodId)
+  Product.findById(prodId)
     .then(product => {
       res.render('shop/product-detail', {
         product: product,
@@ -53,7 +53,7 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
   Cart.getCart(cart => {
-    Product.findAll(products => {
+    Product.fetchAll(products => {
       const cartProducts = [];
       for (product of products) {
         const cartProductData = cart.products.find(

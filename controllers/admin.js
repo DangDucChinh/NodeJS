@@ -36,6 +36,7 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect('/');
   }
   const prodId = req.params.productId;
+  
   Product.findByPk(prodId)
     .then(product => {
       if (!product) {
@@ -86,8 +87,10 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
+  console.log('\n=>' + prodId) ;
   Product.findByPk(prodId)
     .then(product => {
+      console.log(product) ;
       return product.destroy();
     })
     .then(result => {

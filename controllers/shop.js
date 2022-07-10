@@ -54,14 +54,16 @@ exports.getCart = (req, res, next) => {
   req.user
     .getCart()
     .then(cart => {
-      return cart
-        .getProducts()
+      return cart.getProducts()
         .then(products => {
           res.render('shop/cart', {
             path: '/cart',
             pageTitle: 'Your Cart',
             products: products
           });
+          // products.forEach(element => {
+          //   console.log("\n\n ==> " + element.cartItem.quantity);
+          // });
         })
         .catch(err => console.log(err));
     })

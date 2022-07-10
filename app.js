@@ -20,12 +20,12 @@ app.use((req, res, next) => {// sequelize
   
 });
 
-// app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes);
 // app.use(shopRoutes);
 
 // app.use(errorController.get404);
 
-mongoConnect(client=>{
+mongoConnect(()=>{
   app.listen(3000) ; 
 })
 

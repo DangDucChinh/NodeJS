@@ -29,7 +29,7 @@ exports.postAddProduct = (req, res, next) => {
       console.log(err);
     });
 };
-
+    
 
 // exports.getEditProduct = (req, res, next) => {
 //   const editMode = req.query.edit;

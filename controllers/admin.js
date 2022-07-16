@@ -21,6 +21,8 @@ exports.postAddProduct = (req, res, next) => {
       description : description
     }
   );
+
+  
   product
     .save()
     .then(result => {

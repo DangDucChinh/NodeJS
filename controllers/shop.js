@@ -1,3 +1,4 @@
+const { default: mongoose, isObjectIdOrHexString } = require('mongoose');
 const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
@@ -28,6 +29,7 @@ exports.getProduct = (req, res, next) => {
   //   .catch(err => console.log(err));
   Product.findById(prodId)
     .then(product => {
+      console.log(product) ; 
       res.render('shop/product-detail', {
         product: product,
         pageTitle: product.title,

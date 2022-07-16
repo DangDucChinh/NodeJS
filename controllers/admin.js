@@ -14,19 +14,20 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const product = new Product(
-    title,
-    price,
-    description,
-    imageUrl,
-    null,
-    req.user._id
+    {
+      title : title , // phần bên phải là dữ liệu nhận từ req ; 
+      price : price , 
+      imageUrl : imageUrl , // phần bên trái tham chiếu đến khóa tại Schema
+      description : description
+    }
   );
   product
     .save()
     .then(result => {
       // console.log(result);
       console.log('Created Product');
-      res.redirect('/admin/products');
+      // res.redirect('/admin/products');
+      res.redirect('/');
     })
     .catch(err => {
       console.log(err);

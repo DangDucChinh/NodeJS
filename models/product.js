@@ -102,3 +102,5 @@ const productSchema = new Schema({
   }
 });
 
+module.exports = mongoose.model('Product', productSchema);
+// biến từ Schema => model bằng mongoose.model('' , ...) ; 

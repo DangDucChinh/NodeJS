@@ -38,7 +38,7 @@ app.use(errorController.get404);
 //   app.listen(3000);
 // });
 
-mongoose.connect('mongodb+srv://Chinh:zalo12345@cluster0.6jf9u.mongodb.net/test')
+mongoose.connect('mongodb+srv://Huong:zalo12345@cluster0.3me2f.mongodb.net/test')
 .then(result=>{
   app.listen(3000);
 })

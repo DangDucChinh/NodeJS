@@ -1,3 +1,33 @@
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  imageUrl: {
+    type: String,
+    required: true
+  },
+  userId : {
+    type: Schema.Types.ObjectId , 
+    required: true , 
+    ref : 'User'
+  }
+});
+
+module.exports = mongoose.model('Product', productSchema);
+
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb;
 
@@ -76,31 +106,3 @@
 // }
 
 // module.exports = Product;
-                      
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema ; 
-
-const productSchema = new Schema({
-
-  // Ko cần thêm id vì nó sẽ dc tự động thêm bởi ObjectId
-
-  title : {
-    required : true , 
-    type : String 
-  },
-  price : {
-    type: Number , 
-    required : true
-  },
-  description : {
-    type: String , 
-    required : true
-  },
-  imageUrl : {
-    type : String , 
-    required: true 
-  }
-});
-
-module.exports = mongoose.model('Product', productSchema);
-// biến từ Schema => model bằng mongoose.model('' , ...) ; 

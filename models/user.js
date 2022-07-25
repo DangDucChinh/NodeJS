@@ -14,12 +14,47 @@ const userSchema = new Schema({
   cart: {
     items: [
       {
-        productId: { type: Schema.Types.ObjectId, ref : 'Product' ,  required: true },
+        productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
         quantity: { type: Number, required: true }
       }
     ]
   }
 });
+
+
+userSchema.methods.addToCart = function (product) { // hàm nhận vào 1 sản phẩm . dc tìm kiếm bởi findOne
+  const cartProductIndex = this.cart.items.findIndex(cp => { // hàm trong js tìm kiếm vị trí của sẳn phẩm trong giỏ hàng
+    return cp.productId.toString() === product._id.toString(); // tìm id của product trong user trùng với id của product trong SchemaProduct ?
+  });
+  let newQuantity = 1;
+  const updatedCartItems = [...this.cart.items]; // biến updatcartItems được gán bởi mảng cart
+
+  if (cartProductIndex >= 0) {
+    newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+    updatedCartItems[cartProductIndex].quantity = newQuantity;
+  } else {
+    updatedCartItems.push({
+      // productId: new ObjectId(product._id),
+      productId : product._id , 
+      quantity: newQuantity
+    });
+  }
+  const updatedCart = {
+    items: updatedCartItems
+  };
+  // const db = getDb();
+  this.cart = updatedCart;
+
+  // console.log("\n\n=> " + this) ; 
+  return this.save();
+  // return db
+  //   .collection('users')
+  //   .updateOne(
+  //     { _id: new ObjectId(this._id) },
+  //     { $set: { cart: updatedCart } }
+  //   );
+}
+
 
 module.exports = mongoose.model('User', userSchema);
 

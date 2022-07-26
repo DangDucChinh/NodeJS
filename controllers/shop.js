@@ -90,10 +90,11 @@ exports.postOrder = (req, res, next) => {
   req.user.populate('cart.items.productId')
   .execPopulate()
     .then(user => {
+      console.log(user.cart.items)
       const products = user.cart.items.map(i => {
         return {
           quantity: i.quantity,
-          product: i.productId
+          product: {...i.productId._doc} 
         };
       });
 
@@ -113,8 +114,8 @@ exports.postOrder = (req, res, next) => {
 }
 
 exports.getOrders = (req, res, next) => {
-  req.user
-    .getOrders()
+  req.users
+    .getOrders().execPopulate()
     .then(orders => {
       res.render('shop/orders', {
         path: '/orders',

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Product = require('../models/product');
+const Order = require('../models/order') ; 
 
 const Schema = mongoose.Schema;
 
@@ -66,6 +67,10 @@ userSchema.methods.deleteItemFromCart = function(productId){ // nhận được 
   this.cart.items = updatedCartItems ; 
 
   return this.save() ; 
+}
+
+userSchema.methods.getCart = function(){
+  return Order ; 
 }
 
 // return {

@@ -51,7 +51,7 @@ exports.getCart = (req, res, next) => {
     // .execPopulate()
     .then(products => {
 
-      console.log(products.cart.items[0].quantity) ; 
+      // console.log(products.cart.items[0].quantity) ; 
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',

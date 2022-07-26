@@ -56,6 +56,17 @@ userSchema.methods.addToCart = function (product) { // hàm nhận vào 1 sản 
   //   );
 }
 
+userSchema.methods.deleteItemFromCart = function(productId){ // nhận được id từ action 
+  const updatedCartItems = this.cart.items.filter(item => {
+        // return 
+        return item.productId.toString() !== productId.toString() ;
+        // console.log("\n"+item.productId.toString()) ;   // trả về 1 mảng những thằng phần tử có id khác id được chọn
+        //   // từ request 
+        });
+  this.cart.items = updatedCartItems ; 
+
+  return this.save() ; 
+}
 
 // return {
 //   let productsOrItems = this.cart.items.findIndex(pro=>{

@@ -42,14 +42,20 @@ exports.getIndex = (req, res, next) => {
     });
 };
 
+
 exports.getCart = (req, res, next) => {
   req.user
-    .getCart()
+    // .getCart()
+    .populate('cart.items.productId') // lấy ra các phần tử product được do đã chọc ref trong cấu trúc Model 
+    // populate ko phải là 1 promise nên then() ko có tác dụng , cần thêm execPopulate() thì mới có cấu trúc promise
+    // .execPopulate()
     .then(products => {
+
+      console.log(products.cart.items[0].quantity) ; 
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',
-        products: products
+        products: products.cart.items 
       });
     })
     .catch(err => console.log(err));

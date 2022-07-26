@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('../models/product');
 
 const Schema = mongoose.Schema;
 
@@ -35,7 +36,7 @@ userSchema.methods.addToCart = function (product) { // hàm nhận vào 1 sản 
   } else {
     updatedCartItems.push({
       // productId: new ObjectId(product._id),
-      productId : product._id , 
+      productId: product._id,
       quantity: newQuantity
     });
   }
@@ -54,6 +55,20 @@ userSchema.methods.addToCart = function (product) { // hàm nhận vào 1 sản 
   //     { $set: { cart: updatedCart } }
   //   );
 }
+
+
+// return {
+//   let productsOrItems = this.cart.items.findIndex(pro=>{
+//     return pro._id = this.cart.items
+//   })
+// .then(products => {
+//         return products.map(p => {
+//           return {
+//             ...p,
+//             quantity: this.cart.items.find(i => {
+//               return i.productId.toString() === p._id.toString();
+//             }).quantity
+//           };
 
 
 module.exports = mongoose.model('User', userSchema);

@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const Order = require('../models/order');
 
 exports.getProducts = (req, res, next) => {
   Product.find()
@@ -48,14 +49,14 @@ exports.getCart = (req, res, next) => {
     // .getCart()
     .populate('cart.items.productId') // lấy ra các phần tử product được do đã chọc ref trong cấu trúc Model 
     // populate ko phải là 1 promise nên then() ko có tác dụng , cần thêm execPopulate() thì mới có cấu trúc promise
-    // .execPopulate()
+    .execPopulate()
     .then(products => {
 
       // console.log(products.cart.items[0].quantity) ; 
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',
-        products: products.cart.items 
+        products: products.cart.items
       });
     })
     .catch(err => console.log(err));
@@ -85,14 +86,31 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  let fetchedCart;
-  req.user
-    .addOrder()
+
+  req.user.populate('cart.items.productId')
+  .execPopulate()
+    .then(user => {
+      const products = user.cart.items.map(i => {
+        return {
+          quantity: i.quantity,
+          product: i.productId
+        };
+      });
+
+      const order = new Order({
+        user: {
+          name: req.user.name,
+          userId: req.user
+        },
+        products: products
+      });
+      return order.save();
+    })
     .then(result => {
       res.redirect('/orders');
     })
     .catch(err => console.log(err));
-};
+}
 
 exports.getOrders = (req, res, next) => {
   req.user

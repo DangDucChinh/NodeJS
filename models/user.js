@@ -73,6 +73,11 @@ userSchema.methods.getCart = function(){
   return Order ; 
 }
 
+userSchema.methods.clearCart = function(){
+  this.cart = { items : []}  ; 
+  return this.save()  ;
+}
+
 // return {
 //   let productsOrItems = this.cart.items.findIndex(pro=>{
 //     return pro._id = this.cart.items

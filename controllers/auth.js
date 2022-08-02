@@ -27,3 +27,4 @@ exports.postLogout = (req, res, next) => {
     res.redirect('/');
   });
 };
+     

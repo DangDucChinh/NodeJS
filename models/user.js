@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const Product = require('../models/product');
-const Order = require('../models/order') ; 
 
 const Schema = mongoose.Schema;
 
@@ -16,27 +14,29 @@ const userSchema = new Schema({
   cart: {
     items: [
       {
-        productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true
+        },
         quantity: { type: Number, required: true }
       }
     ]
   }
 });
 
-
-userSchema.methods.addToCart = function (product) { // hàm nhận vào 1 sản phẩm . dc tìm kiếm bởi findOne
-  const cartProductIndex = this.cart.items.findIndex(cp => { // hàm trong js tìm kiếm vị trí của sẳn phẩm trong giỏ hàng
-    return cp.productId.toString() === product._id.toString(); // tìm id của product trong user trùng với id của product trong SchemaProduct ?
+userSchema.methods.addToCart = function(product) {
+  const cartProductIndex = this.cart.items.findIndex(cp => {
+    return cp.productId.toString() === product._id.toString();
   });
   let newQuantity = 1;
-  const updatedCartItems = [...this.cart.items]; // biến updatcartItems được gán bởi mảng cart
+  const updatedCartItems = [...this.cart.items];
 
   if (cartProductIndex >= 0) {
     newQuantity = this.cart.items[cartProductIndex].quantity + 1;
     updatedCartItems[cartProductIndex].quantity = newQuantity;
   } else {
     updatedCartItems.push({
-      // productId: new ObjectId(product._id),
       productId: product._id,
       quantity: newQuantity
     });
@@ -44,53 +44,22 @@ userSchema.methods.addToCart = function (product) { // hàm nhận vào 1 sản 
   const updatedCart = {
     items: updatedCartItems
   };
-  // const db = getDb();
   this.cart = updatedCart;
-
-  // console.log("\n\n=> " + this) ; 
   return this.save();
-  // return db
-  //   .collection('users')
-  //   .updateOne(
-  //     { _id: new ObjectId(this._id) },
-  //     { $set: { cart: updatedCart } }
-  //   );
-}
+};
 
-userSchema.methods.deleteItemFromCart = function(productId){ // nhận được id từ action 
+userSchema.methods.removeFromCart = function(productId) {
   const updatedCartItems = this.cart.items.filter(item => {
-        // return 
-        return item.productId.toString() !== productId.toString() ;
-        // console.log("\n"+item.productId.toString()) ;   // trả về 1 mảng những thằng phần tử có id khác id được chọn
-        //   // từ request 
-        });
-  this.cart.items = updatedCartItems ; 
+    return item.productId.toString() !== productId.toString();
+  });
+  this.cart.items = updatedCartItems;
+  return this.save();
+};
 
-  return this.save() ; 
-}
-
-userSchema.methods.getCart = function(){
-  return Order ; 
-}
-
-userSchema.methods.clearCart = function(){
-  this.cart = { items : []}  ; 
-  return this.save()  ;
-}
-
-// return {
-//   let productsOrItems = this.cart.items.findIndex(pro=>{
-//     return pro._id = this.cart.items
-//   })
-// .then(products => {
-//         return products.map(p => {
-//           return {
-//             ...p,
-//             quantity: this.cart.items.find(i => {
-//               return i.productId.toString() === p._id.toString();
-//             }).quantity
-//           };
-
+userSchema.methods.clearCart = function() {
+  this.cart = { items: [] };
+  return this.save();
+};
 
 module.exports = mongoose.model('User', userSchema);
 

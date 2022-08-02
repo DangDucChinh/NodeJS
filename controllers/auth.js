@@ -8,7 +8,7 @@ exports.getLogin = (req, res, next)=>{
     res.render('auth/login', {
         path: '/login' , 
         pageTitle: 'Login' , 
-        isAuthenticated : false 
+        isAuthenticated : Loggedin
     });
 }
 
@@ -16,6 +16,14 @@ exports.postLogin = (req, res, next)=>{
      req.session.isLoggedin = true ; 
     // res.setHeader('Set-Cookie', 'loggedIn=true') ;  // HttpOnly, Secure , ... 
     res.redirect('/') ; 
+}
+
+exports.postLogout = (req, res ,next)=>{
+    req.session.destroy(err=>{
+        console.log(err) ; 
+        console.log('DESTROYED SESSION !');
+        res.redirect('/') ; 
+    })
 }
 
    

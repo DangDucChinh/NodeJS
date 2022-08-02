@@ -3,7 +3,7 @@ exports.getLogin = (req, res, next)=>{
     const isLoggedin =  req.get('Cookie').split('=')[1].trim() ; 
     res.render('auth/login', {
         path: '/login' , 
-        pageTitle: 'LOGOUT' , 
+        pageTitle: 'Login' , 
         isAuthenticated : isLoggedin
     });
 }

@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const session = require('express-session') ; 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
@@ -18,6 +18,8 @@ const authRouter = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use({secret:'my secret', resave: false, saveUninitialized: false }) ; // , cookie : { maxAge , exprired ...}
 
 app.use((req, res, next) => {
   User.findById('62ce57e031d8ee59e14c6a64')

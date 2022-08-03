@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const bcryptjs = require('bcryptjs');
 
 exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
@@ -30,30 +31,34 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  const email = req.body.email ; 
-  const password = req.body.password ; 
-  const confirmPassword = req.body.confirmPassword ; 
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
 
-  User.findOne({email : email})
-  .then(userDoc=>{
-    if(userDoc){ // nếu user tồn tại trong database rồi thì yêu cầu sign up ( đăng kí ) lại 
-      // alert('Đã tồn tại user này rồi , đề nghị đăng kí user khác !!!');  
-      return res.redirect('/signup') ; 
-    }
-    const user = new User({
-      email : email , 
-      password : password , 
-      cart : { items : [] }  
-    });
+  User.findOne({ email: email })
+    .then(userDoc => {
+      if (userDoc) { // nếu user tồn tại trong database rồi thì yêu cầu sign up ( đăng kí ) lại 
+        // alert('Đã tồn tại user này rồi , đề nghị đăng kí user khác !!!');  
+        return res.redirect('/signup');
+      }
+      return bcryptjs.hash(password , 12) ; 
+    })
+    .then(hashedPassword => {
+      console.log(hashedPassword) ; 
+      const user = new User({
+        email: email,
+        password: hashedPassword,
+        cart: { items: [] }
+      });
 
-    return  user.save(); 
-  })
-  .then(result=>{
-    res.redirect('/login') ; // sau khi đăng kí cần phải đăng nhập  , đăng nhập chuẩn thì mới được dùng các tiện ích của người đăng nhập
-  })
-  .catch(err=>{
-    console.log(err) ; 
-  })
+      return user.save();
+    })
+    .then(result => {
+      res.redirect('/login'); // sau khi đăng kí cần phải đăng nhập  , đăng nhập chuẩn thì mới được dùng các tiện ích của người đăng nhập
+    })
+    .catch(err => {
+      console.log(err);
+    })
 
 
 };

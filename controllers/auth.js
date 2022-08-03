@@ -41,20 +41,20 @@ exports.postSignup = (req, res, next) => {
         // alert('Đã tồn tại user này rồi , đề nghị đăng kí user khác !!!');  
         return res.redirect('/signup');
       }
-      return bcryptjs.hash(password , 12) ; 
-    })
-    .then(hashedPassword => {
-      console.log(hashedPassword) ; 
-      const user = new User({
-        email: email,
-        password: hashedPassword,
-        cart: { items: [] }
-      });
-
-      return user.save();
-    })
-    .then(result => {
-      res.redirect('/login'); // sau khi đăng kí cần phải đăng nhập  , đăng nhập chuẩn thì mới được dùng các tiện ích của người đăng nhập
+      
+      return bcryptjs.hash(password, 12)
+        .then(hashedPassword => {
+          console.log(hashedPassword);
+          const user = new User({
+            email: email,
+            password: hashedPassword,
+            cart: { items: [] }
+          });
+          return user.save();
+        })
+        .then(result => {
+          res.redirect('/login'); // sau khi đăng kí cần phải đăng nhập  , đăng nhập chuẩn thì mới được dùng các tiện ích của người đăng nhập
+        })
     })
     .catch(err => {
       console.log(err);

@@ -22,6 +22,8 @@ exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
+
+  console.log("\n\n=> "+req.body._csrf) ; 
   User.findOne({ email: email }).then(user_on_data => {
     if (!user_on_data) {
       // console.log('Ko có user đó !!');

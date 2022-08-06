@@ -82,7 +82,9 @@ exports.postSignup = (req, res, next) => {
   const confirmPassword = req.body.confirmPassword;
 
   const error = validationResult(req) ; // nhận hết lỗi  req 
-  console.log("\nPostSignUp"+ error.array()) ; 
+  // // console.log("\nPostSignUp"+ error.array()) ; 
+  // console.log("\nPostSignUp"+ error) ; 
+
   if(!error.isEmpty()){
     return res.status(422).render('auth/signup', {
       path : '/signup' , 

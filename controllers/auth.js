@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
       api_key:
-        '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'
+        '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'
     }
   })
 );
@@ -116,7 +116,7 @@ exports.postSignup = (req, res, next) => {
           res.redirect('/login');
           return transporter.sendMail({
             to: email,
-            from: 'chinh22082001@gmail.com',
+            from: 'chinhddFX15068@funix.edu.vn',
             subject: 'Signup succeeded!',
             html: '<h1>You successfully signed up!</h1>'
           });
@@ -169,10 +169,13 @@ exports.postReset = (req, res, next) => {
         return user.save();
       })
       .then(result => {
+        console.log('\nPost RESET !!!') ; 
+        console.log('\n') ; 
+
         res.redirect('/');
         transporter.sendMail({
           to: req.body.email,
-          from: 'chinh22082001@gmail.com',
+          from: 'chinhddFX15068@funix.edu.vn',
           subject: 'Password reset',
           html: `
             <p>You requested a password reset</p>

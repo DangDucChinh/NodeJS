@@ -46,8 +46,10 @@ exports.getSignup = (req, res, next) => {
       email : "" , 
       password: '' , 
       confirmPassword: ''
-    }
+    } , 
+    validationErrors : []
   });
+
 };
 
 exports.postLogin = (req, res, next) => {
@@ -88,9 +90,12 @@ exports.postSignup = (req, res, next) => {
 
   const error = validationResult(req); // nhận hết lỗi  req 
   // // console.log("\nPostSignUp"+ error.array()) ; 
-  // console.log("\nPostSignUp"+ error) ; 
+  // console.log("\nPostSignUp"+ error) ;  
+
+  console.log(error.array()) ; 
 
   if (!error.isEmpty()) {
+
     return res.status(422).render('auth/signup', {
       path: '/signup',
       pageTitle: "Sign UP",
@@ -99,7 +104,9 @@ exports.postSignup = (req, res, next) => {
         email: req.body.email , 
         password: req.body.password , 
         confirmPassword: req.body.confirmPassword
-      }
+      } , 
+
+      validationErrors: error.array()
     });
   }
 

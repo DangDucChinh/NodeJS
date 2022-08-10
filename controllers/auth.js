@@ -5,14 +5,13 @@ const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const { validationResult } = require('express-validator/check');
 
-
 const User = require('../models/user');
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
       api_key:
-        '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'
+        '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'
     }
   })
 );
@@ -27,7 +26,12 @@ exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
-    errorMessage: message
+    errorMessage: message,
+    oldInput: {
+      email: '',
+      password: ''
+    },
+    validationErrors: []
   });
 };
 
@@ -41,26 +45,49 @@ exports.getSignup = (req, res, next) => {
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'Signup',
-    errorMessage: message , 
-    oldInput : {
-      email : "" , 
-      password: '' , 
+    errorMessage: message,
+    oldInput: {
+      email: '',
+      password: '',
       confirmPassword: ''
-    } , 
-    validationErrors : []
+    },
+    validationErrors: []
   });
-
 };
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      path: '/login',
+      pageTitle: 'Login',
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password
+      },
+      validationErrors: errors.array()
+    });
+  }
+
   User.findOne({ email: email })
     .then(user => {
       if (!user) {
-        req.flash('error', 'Invalid email or password.');
-        return res.redirect('/login');
+        return res.status(422).render('auth/login', {
+          path: '/login',
+          pageTitle: 'Login',
+          errorMessage: 'Ko có email (user) này !!!',
+          oldInput: {
+            email: email,
+            password: password
+          },
+          validationErrors: errors.array()
+        });
       }
+
       bcrypt
         .compare(password, user.password)
         .then(doMatch => {
@@ -72,8 +99,16 @@ exports.postLogin = (req, res, next) => {
               res.redirect('/');
             });
           }
-          req.flash('error', 'Invalid email or password.');
-          res.redirect('/login');
+          return res.status(422).render('auth/login', {
+            path: '/login',
+            pageTitle: 'Login',
+            errorMessage: 'Có email này mà sai mật khẩu !!!',
+            oldInput: {
+              email: email,
+              password: password
+            },
+            validationErrors: errors.array()
+          });
         })
         .catch(err => {
           console.log(err);
@@ -86,27 +121,20 @@ exports.postLogin = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
 
-  const error = validationResult(req); // nhận hết lỗi  req 
-  // // console.log("\nPostSignUp"+ error.array()) ; 
-  // console.log("\nPostSignUp"+ error) ;  
-
-  console.log(error.array()) ; 
-
-  if (!error.isEmpty()) {
-
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
     return res.status(422).render('auth/signup', {
       path: '/signup',
-      pageTitle: "Sign UP",
-      errorMessage: error.array()[0].msg , 
+      pageTitle: 'Signup',
+      errorMessage: errors.array()[0].msg,
       oldInput: {
-        email: req.body.email , 
-        password: req.body.password , 
+        email: email,
+        password: password,
         confirmPassword: req.body.confirmPassword
-      } , 
-
-      validationErrors: error.array()
+      },
+      validationErrors: errors.array()
     });
   }
 
@@ -122,17 +150,16 @@ exports.postSignup = (req, res, next) => {
     })
     .then(result => {
       res.redirect('/login');
-      return transporter.sendMail({
-        to: email,
-        from: 'chinhddFX15068@funix.edu.vn',
-        subject: 'Signup succeeded!',
-        html: '<h1>You successfully signed up!</h1>'
-      });
+      // return transporter.sendMail({
+      //   to: email,
+      //   from: 'shop@node-complete.com',
+      //   subject: 'Signup succeeded!',
+      //   html: '<h1>You successfully signed up!</h1>'
+      // });
     })
     .catch(err => {
       console.log(err);
     });
-
 };
 
 exports.postLogout = (req, res, next) => {
@@ -174,13 +201,10 @@ exports.postReset = (req, res, next) => {
         return user.save();
       })
       .then(result => {
-        console.log('\nPost RESET !!!');
-        console.log('\n');
-
         res.redirect('/');
         transporter.sendMail({
           to: req.body.email,
-          from: 'chinhddFX15068@funix.edu.vn',
+          from: 'shop@node-complete.com',
           subject: 'Password reset',
           html: `
             <p>You requested a password reset</p>

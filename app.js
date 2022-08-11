@@ -47,21 +47,28 @@ app.use((req, res, next) => {
   }
   User.findById(req.session.user._id)
     .then(user => {
+      if (!user) {
+        return next();
+      }
+
       req.user = user;
       next();
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // console.log(err)
+      throw new Error(err);
+    });
 });
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;    
-  res.locals.csrfToken = req.csrfToken();      
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
   next();
 });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
-app.use(authRoutes);   
+app.use(authRoutes);
 
 app.use(errorController.get404);
 

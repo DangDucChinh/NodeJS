@@ -12,12 +12,9 @@ exports.getProducts = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -32,12 +29,9 @@ exports.getProduct = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -51,12 +45,9 @@ exports.getIndex = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -73,12 +64,9 @@ exports.getCart = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -91,6 +79,11 @@ exports.postCart = (req, res, next) => {
     .then(result => {
       console.log(result);
       res.redirect('/cart');
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -102,12 +95,9 @@ exports.postCartDeleteProduct = (req, res, next) => {
       res.redirect('/cart');
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -135,12 +125,9 @@ exports.postOrder = (req, res, next) => {
       res.redirect('/orders');
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -154,11 +141,8 @@ exports.getOrders = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };

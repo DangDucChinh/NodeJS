@@ -12,7 +12,12 @@ exports.getProducts = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
     });
 };
 
@@ -26,7 +31,14 @@ exports.getProduct = (req, res, next) => {
         path: '/products'
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
+    });
 };
 
 exports.getIndex = (req, res, next) => {
@@ -39,7 +51,12 @@ exports.getIndex = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
     });
 };
 
@@ -55,7 +72,14 @@ exports.getCart = (req, res, next) => {
         products: products
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
+    });
 };
 
 exports.postCart = (req, res, next) => {
@@ -77,7 +101,14 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .then(result => {
       res.redirect('/cart');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
+    });
 };
 
 exports.postOrder = (req, res, next) => {
@@ -103,7 +134,14 @@ exports.postOrder = (req, res, next) => {
     .then(() => {
       res.redirect('/orders');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
+    });
 };
 
 exports.getOrders = (req, res, next) => {
@@ -115,5 +153,12 @@ exports.getOrders = (req, res, next) => {
         orders: orders
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
+    });
 };

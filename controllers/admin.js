@@ -56,8 +56,12 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect('/admin/products');
     })
     .catch(err => {
-      res.redirect('/500') ; 
-      console.log(err);
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
     });
 };
 
@@ -82,7 +86,14 @@ exports.getEditProduct = (req, res, next) => {
         validationErrors: []
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
+    });
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -126,7 +137,14 @@ exports.postEditProduct = (req, res, next) => {
         res.redirect('/admin/products');
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
+    });
 };
 
 exports.getProducts = (req, res, next) => {

@@ -1,6 +1,6 @@
-const crypto = require('crypto');
+const crypto = require('crypto'); // thư viện mã có thể dịch ngược lại 
 
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); // pass=> hash ko thể dịch ngược
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const { validationResult } = require('express-validator/check');
@@ -79,14 +79,15 @@ exports.postLogin = (req, res, next) => {
         return res.status(422).render('auth/login', {
           path: '/login',
           pageTitle: 'Login',
-          errorMessage: 'Invalid email or password.',
+          errorMessage: 'Ko có email (user) này !!!',
           oldInput: {
             email: email,
             password: password
           },
-          validationErrors: []
+          validationErrors: errors.array()
         });
       }
+
       bcrypt
         .compare(password, user.password)
         .then(doMatch => {
@@ -101,12 +102,12 @@ exports.postLogin = (req, res, next) => {
           return res.status(422).render('auth/login', {
             path: '/login',
             pageTitle: 'Login',
-            errorMessage: 'Invalid email or password.',
+            errorMessage: 'Có email này mà sai mật khẩu !!!',
             oldInput: {
               email: email,
               password: password
             },
-            validationErrors: []
+            validationErrors: errors.array()
           });
         })
         .catch(err => {
@@ -115,9 +116,12 @@ exports.postLogin = (req, res, next) => {
         });
     })
     .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
     });
 };
 
@@ -161,9 +165,12 @@ exports.postSignup = (req, res, next) => {
       // });
     })
     .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
     });
 };
 
@@ -218,9 +225,12 @@ exports.postReset = (req, res, next) => {
         });
       })
       .catch(err => {
-        const error = new Error(err);
-        error.httpStatusCode = 500;
-        return next(error);
+        // res.redirect('/500') ; 
+        // console.log(err);
+        const error = new Error(err) ;  // tạo đối tượng err
+        error.httpStatusCode = 500 ; 
+        return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+  
       });
   });
 };
@@ -244,9 +254,12 @@ exports.getNewPassword = (req, res, next) => {
       });
     })
     .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
     });
 };
 
@@ -275,8 +288,12 @@ exports.postNewPassword = (req, res, next) => {
       res.redirect('/login');
     })
     .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      // res.redirect('/500') ; 
+      // console.log(err);
+      const error = new Error(err) ;  // tạo đối tượng err
+      error.httpStatusCode = 500 ; 
+      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
+
     });
 };
+   

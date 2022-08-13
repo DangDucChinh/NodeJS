@@ -124,9 +124,7 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  console.log('vao chua');
   const prodId = req.body.productId;
-  console.log(prodId);
 
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
@@ -213,7 +211,7 @@ exports.postDeleteProduct = (req, res, next) => {
     })
     .catch(err => {
       const error = new Error(err);
-      error.httpStatusCode = 500;
+      error.httpStatusCode = 500;  
       return next(error);
     });
 };

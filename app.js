@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const multer = require('multer') ; 
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
@@ -29,6 +30,8 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({dist : 'images'}).single('image')) ;  // dist: images chỉ tùy chọn cho nơi lưu trữ , single('image') thì chỉ rằng chọn 1 file và 
+// nó nhận image từ input
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({

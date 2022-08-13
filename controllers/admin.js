@@ -1,6 +1,6 @@
-const { validationResult } = require('express-validator/check');
-const mongoose = require('mongoose') ; 
+const mongoose = require('mongoose');
 
+const { validationResult } = require('express-validator/check');
 
 const Product = require('../models/product');
 
@@ -17,18 +17,31 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
-  const imageUrl = req.file;
+  const image = req.file;
   const price = req.body.price;
   const description = req.body.description;
+  if (!image) {
+    return res.status(422).render('admin/edit-product', {
+      pageTitle: 'Add Product',
+      path: '/admin/add-product',
+      editing: false,
+      hasError: true,
+      product: {
+        title: title,
+        price: price,
+        description: description
+      },
+      errorMessage: 'Attached file is not an image.',
+      validationErrors: []
+    });
+  }
   const errors = validationResult(req);
-
-  console.log("\n=> "+imageUrl) ; 
 
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return res.status(422).render('admin/edit-product', {
       pageTitle: 'Add Product',
-      path: '/admin/edit-product',
+      path: '/admin/add-product',
       editing: false,
       hasError: true,
       product: {
@@ -42,8 +55,10 @@ exports.postAddProduct = (req, res, next) => {
     });
   }
 
+  const imageUrl = image.path;
+
   const product = new Product({
-    _id : mongoose.Types.ObjectId('62dd47eda43b4f8ee6c8cc8c') , 
+    // _id: new mongoose.Types.ObjectId('5badf72403fd8b5be0366e81'),
     title: title,
     price: price,
     description: description,
@@ -58,12 +73,24 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect('/admin/products');
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      // return res.status(500).render('admin/edit-product', {
+      //   pageTitle: 'Add Product',
+      //   path: '/admin/add-product',
+      //   editing: false,
+      //   hasError: true,
+      //   product: {
+      //     title: title,
+      //     imageUrl: imageUrl,
+      //     price: price,
+      //     description: description
+      //   },
+      //   errorMessage: 'Database operation failed, please try again.',
+      //   validationErrors: []
+      // });
+      // res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -89,12 +116,9 @@ exports.getEditProduct = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -140,12 +164,9 @@ exports.postEditProduct = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -162,12 +183,9 @@ exports.getProducts = (req, res, next) => {
       });
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -179,11 +197,8 @@ exports.postDeleteProduct = (req, res, next) => {
       res.redirect('/admin/products');
     })
     .catch(err => {
-      // res.redirect('/500') ; 
-      // console.log(err);
-      const error = new Error(err) ;  // tạo đối tượng err
-      error.httpStatusCode = 500 ; 
-      return next(error) ; // khi gọi hàm này thì nó dừng hết middleware khác và tập trung xử lí lỗi này 
-
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };

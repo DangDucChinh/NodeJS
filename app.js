@@ -7,7 +7,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
-const multer = require('multer') ; 
+const multer = require('multer');
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
@@ -22,6 +22,28 @@ const store = new MongoDBStore({
 });
 const csrfProtection = csrf();
 
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date (). toISOString () .replace (/:/g,'-') + '-' + file.originalname); // window ko cho phép có các : , vì thế cần hàm replace để
+    // thay thế : thành -
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -30,8 +52,11 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({dist : 'images'}).single('image')) ;  // dist: images chỉ tùy chọn cho nơi lưu trữ , single('image') thì chỉ rằng chọn 1 file và 
-// nó nhận image từ input
+
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+);
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
@@ -83,6 +108,7 @@ app.use((error, req, res, next) => {
     pageTitle: 'Error!',
     path: '/500',
     isAuthenticated: req.session.isLoggedIn
+    // req.session.isLoggedIn
   });
 });
 

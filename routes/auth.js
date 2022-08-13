@@ -53,18 +53,18 @@ router.post(
       .isAlphanumeric()
       .trim(),
     body('confirmPassword')
+      .trim()
       .custom((value, { req }) => {
         if (value !== req.body.password) {
           throw new Error('Passwords have to match!');
         }
         return true;
       })
-      .normalizeEmail()
   ],
   authController.postSignup
 );
 
-router.post('/logout', authController.postLogout);   
+router.post('/logout', authController.postLogout);
 
 router.get('/reset', authController.getReset);
 

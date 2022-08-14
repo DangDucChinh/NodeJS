@@ -163,6 +163,8 @@ exports.getInvoice = (req, res, next)=>{
     }
 
     // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
+    res.setHeader('Content-Type','application/pdf');  
+    console.log('Đã làm') ; 
     res.send(data) // hàm cung cấp bởi express
   })
 }

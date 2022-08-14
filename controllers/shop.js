@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const PDFDocument = require('pdfkit');
 
+const PDFDocument = require('pdfkit');
 
 const Product = require('../models/product');
 const Order = require('../models/order');
@@ -152,60 +152,66 @@ exports.getOrders = (req, res, next) => {
     });
 };
 
-
 exports.getInvoice = (req, res, next) => {
-
-  const orderId = req.params.orderId; // lấy id của order, tìm  order đó , truy ra userId , cái này ghi trong routes
+  const orderId = req.params.orderId;
   Order.findById(orderId)
     .then(order => {
-
       if (!order) {
-        console.log('Ko thấy order');
-        return next(new Error('No order found !!!'));
+        return next(new Error('No order found.'));
       }
-
       if (order.user.userId.toString() !== req.user._id.toString()) {
-        return next(new Error('KO thể xác thực userid đang đăng nhập và orderid của người đang đăng nhập !!!'));
+        return next(new Error('Unauthorized'));
       }
-
       const invoiceName = 'invoice-' + orderId + '.pdf';
-      const invoicePath = path.join('data', 'invoices', invoiceName); // module path cho phép chỉ thẳng vào đường dẫn để lấy được tên file
-      const pdfdoc = new PDFDocument(); // pdfdoc là 1 luồng đọc nên có thể dùng pipe để viết thành luồng ghi
+      const invoicePath = path.join('data', 'invoices', invoiceName);
 
+      const pdfDoc = new PDFDocument();
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
+      res.setHeader(
+        'Content-Disposition',
+        'inline; filename="' + invoiceName + '"'
+      );
+      pdfDoc.pipe(fs.createWriteStream(invoicePath));
+      pdfDoc.pipe(res);
 
-      pdfdoc.pipe(fs.createWriteStream(invoicePath)); // tạo ra dữ liệu nhờ luồng ghi khi đọc
-      pdfdoc.pipe(res); // luồng đọc pdfdoc chuyển thành luồng đọc có thể ghi res
-      pdfdoc.text('Hello world\nHello world');
+      pdfDoc.fontSize(26).text('Invoice', {
+        underline: true
+      });
+      pdfDoc.text('-----------------------');
+      let totalPrice = 0;
+      order.products.forEach(prod => {
+        totalPrice += prod.quantity * prod.product.price;
+        pdfDoc
+          .fontSize(14)
+          .text(
+            prod.product.title +
+              ' - ' +
+              prod.quantity +
+              ' x ' +
+              '$' +
+              prod.product.price
+          );
+      });
+      pdfDoc.text('---');
+      pdfDoc.fontSize(20).text('Total Price: $' + totalPrice);
 
-      pdf.end(); // khi gọi nó, bắt đầu từ luồng ghi pdfdocpipe(fs.createStream ...) để tạo tệp và gửi phẩn hồi sẽ bị đóng 
-      res.send(data) // hàm cung cấp bởi express
-
-
-      //1 fs.readFile(invoicePath, (err, data) => { // đọc xong tệp thì có callback để làm gì đó 
+      pdfDoc.end();
+      // fs.readFile(invoicePath, (err, data) => {
       //   if (err) {
-      //     console.log(err);
-      //     return next(err); // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
+      //     return next(err);
       //   }
-
-      //   // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
-      // res.setHeader('Content-Type', 'application/pdf');
-      // res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
-      // res.send(data) // hàm cung cấp bởi express
+      //   res.setHeader('Content-Type', 'application/pdf');
+      //   res.setHeader(
+      //     'Content-Disposition',
+      //     'inline; filename="' + invoiceName + '"'
+      //   );
+      //   res.send(data);
       // });
+      // const file = fs.createReadStream(invoicePath);
 
-      //2 const file = fs.createReadStream(invoicePath) ; 
-      // res.setHeader('Content-Type', 'application/pdf');
-      // res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
-      // res.send(data) // hàm cung cấp bởi express
-
-      // file.pipe(res) ; 
-      // response là luồng ghi , vì vậy cần chuyển tiếp từ luồng đọc sang luồng ghi
-
+      // file.pipe(res);
     })
-    .catch(err => { // nếu ko tìm ra
-      console.log('Gặp lỗi trong việc truy cập vào Object Order !!!');
-      return next(err);
-    });
-}
+    .catch(err => next(err));
+};
+
+

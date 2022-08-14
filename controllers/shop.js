@@ -1,3 +1,7 @@
+const fs = require('fs') ; 
+const path = require('path') ; 
+
+
 const Product = require('../models/product');
 const Order = require('../models/order');
 
@@ -146,3 +150,19 @@ exports.getOrders = (req, res, next) => {
       return next(error);
     });
 };
+
+
+exports.getInvoice = (req, res, next)=>{
+  const orderId = req.params.orderId ; // cái này ghi trong routes
+  const invoiceName = 'invoice-' + orderId + '.pdf' ;  
+  const invoicePath = path.join('data','invoices', invoiceName) ; // module path cho phép chỉ thẳng vào đường dẫn để lấy được tên file
+  fs.readFile(invoicePath, (err , data)=>{ // đọc xong tệp thì có callback để làm gì đó 
+    if(err){
+      console.log(err) ; 
+      return next(err) ; // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
+    }
+
+    // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
+    res.send(data) // hàm cung cấp bởi express
+  })
+}

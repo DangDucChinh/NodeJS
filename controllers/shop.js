@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const PDFDocument = require('pdfkit');
 
 
 const Product = require('../models/product');
@@ -164,31 +165,43 @@ exports.getInvoice = (req, res, next) => {
       }
 
       if (order.user.userId.toString() !== req.user._id.toString()) {
-        return next(new Error('KO thể xác thực userid đang đăng nhập và orderid của người đang đăng nhập !!!')) ; 
+        return next(new Error('KO thể xác thực userid đang đăng nhập và orderid của người đang đăng nhập !!!'));
       }
 
       const invoiceName = 'invoice-' + orderId + '.pdf';
       const invoicePath = path.join('data', 'invoices', invoiceName); // module path cho phép chỉ thẳng vào đường dẫn để lấy được tên file
-        // fs.readFile(invoicePath, (err, data) => { // đọc xong tệp thì có callback để làm gì đó 
-        //   if (err) {
-        //     console.log(err);
-        //     return next(err); // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
-        //   }
+      const pdfdoc = new PDFDocument(); // pdfdoc là 1 luồng đọc nên có thể dùng pipe để viết thành luồng ghi
 
-        //   // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
-          // res.setHeader('Content-Type', 'application/pdf');
-          // res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
-          // res.send(data) // hàm cung cấp bởi express
-        // });
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
 
-        const file = fs.createReadStream(invoicePath) ; 
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
-        res.send(data) // hàm cung cấp bởi express
+      pdfdoc.pipe(fs.createWriteStream(invoicePath)); // tạo ra dữ liệu nhờ luồng ghi khi đọc
+      pdfdoc.pipe(res); // luồng đọc pdfdoc chuyển thành luồng đọc có thể ghi res
+      pdfdoc.text('Hello world\nHello world');
 
-        file.pipe(res) ; 
-        // response là luồng ghi , vì vậy cần chuyển tiếp từ luồng đọc sang luồng ghi
+      pdf.end(); // khi gọi nó, bắt đầu từ luồng ghi pdfdocpipe(fs.createStream ...) để tạo tệp và gửi phẩn hồi sẽ bị đóng 
+      res.send(data) // hàm cung cấp bởi express
 
+
+      //1 fs.readFile(invoicePath, (err, data) => { // đọc xong tệp thì có callback để làm gì đó 
+      //   if (err) {
+      //     console.log(err);
+      //     return next(err); // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
+      //   }
+
+      //   // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
+      // res.setHeader('Content-Type', 'application/pdf');
+      // res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
+      // res.send(data) // hàm cung cấp bởi express
+      // });
+
+      //2 const file = fs.createReadStream(invoicePath) ; 
+      // res.setHeader('Content-Type', 'application/pdf');
+      // res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
+      // res.send(data) // hàm cung cấp bởi express
+
+      // file.pipe(res) ; 
+      // response là luồng ghi , vì vậy cần chuyển tiếp từ luồng đọc sang luồng ghi
 
     })
     .catch(err => { // nếu ko tìm ra

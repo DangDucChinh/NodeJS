@@ -168,18 +168,27 @@ exports.getInvoice = (req, res, next) => {
       }
 
       const invoiceName = 'invoice-' + orderId + '.pdf';
-        const invoicePath = path.join('data', 'invoices', invoiceName); // module path cho phép chỉ thẳng vào đường dẫn để lấy được tên file
-        fs.readFile(invoicePath, (err, data) => { // đọc xong tệp thì có callback để làm gì đó 
-          if (err) {
-            console.log(err);
-            return next(err); // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
-          }
+      const invoicePath = path.join('data', 'invoices', invoiceName); // module path cho phép chỉ thẳng vào đường dẫn để lấy được tên file
+        // fs.readFile(invoicePath, (err, data) => { // đọc xong tệp thì có callback để làm gì đó 
+        //   if (err) {
+        //     console.log(err);
+        //     return next(err); // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
+        //   }
 
-          // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
-          res.setHeader('Content-Type', 'application/pdf');
-          res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
-          res.send(data) // hàm cung cấp bởi express
-        });
+        //   // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
+          // res.setHeader('Content-Type', 'application/pdf');
+          // res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
+          // res.send(data) // hàm cung cấp bởi express
+        // });
+
+        const file = fs.createReadStream(invoicePath) ; 
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
+        res.send(data) // hàm cung cấp bởi express
+
+        file.pipe(res) ; 
+        // response là luồng ghi , vì vậy cần chuyển tiếp từ luồng đọc sang luồng ghi
+
 
     })
     .catch(err => { // nếu ko tìm ra

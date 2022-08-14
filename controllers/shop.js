@@ -1,5 +1,5 @@
-const fs = require('fs') ; 
-const path = require('path') ; 
+const fs = require('fs');
+const path = require('path');
 
 
 const Product = require('../models/product');
@@ -152,19 +152,38 @@ exports.getOrders = (req, res, next) => {
 };
 
 
-exports.getInvoice = (req, res, next)=>{
-  const orderId = req.params.orderId ; // cái này ghi trong routes
-  const invoiceName = 'invoice-' + orderId + '.pdf' ;  
-  const invoicePath = path.join('data','invoices', invoiceName) ; // module path cho phép chỉ thẳng vào đường dẫn để lấy được tên file
-  fs.readFile(invoicePath, (err , data)=>{ // đọc xong tệp thì có callback để làm gì đó 
-    if(err){
-      console.log(err) ; 
-      return next(err) ; // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
-    }
+exports.getInvoice = (req, res, next) => {
 
-    // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
-    res.setHeader('Content-Type','application/pdf');  
-    console.log('Đã làm') ; 
-    res.send(data) // hàm cung cấp bởi express
-  })
+  const orderId = req.params.orderId; // lấy id của order, tìm  order đó , truy ra userId , cái này ghi trong routes
+  Order.findById(orderId)
+    .then(order => {
+
+      if (!order) {
+        console.log('Ko thấy order');
+        return next(new Error('No order found !!!'));
+      }
+
+      if (order.user.userId.toString() !== req.user._id.toString()) {
+        return next(new Error('KO thể xác thực userid đang đăng nhập và orderid của người đang đăng nhập !!!')) ; 
+      }
+
+      const invoiceName = 'invoice-' + orderId + '.pdf';
+        const invoicePath = path.join('data', 'invoices', invoiceName); // module path cho phép chỉ thẳng vào đường dẫn để lấy được tên file
+        fs.readFile(invoicePath, (err, data) => { // đọc xong tệp thì có callback để làm gì đó 
+          if (err) {
+            console.log(err);
+            return next(err); // bỏ vào middleware xử lí lỗi lần trc , dùng return để mã khác ko dc thực thi
+          }
+
+          // nếu ko lỗi thì là cua tôi rồi . làm gì thì làm 
+          res.setHeader('Content-Type', 'application/pdf');
+          res.setHeader('Content-Diposition', 'inline; filename="' + invoiceName + '" "');
+          res.send(data) // hàm cung cấp bởi express
+        });
+
+    })
+    .catch(err => { // nếu ko tìm ra
+      console.log('Gặp lỗi trong việc truy cập vào Object Order !!!');
+      return next(err);
+    });
 }

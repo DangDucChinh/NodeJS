@@ -12,8 +12,8 @@ const multer = require('multer');
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const MONGODB_URI =
-  'mongodb+srv://Chinh:zalo12345@cluster0.6jf9u.mongodb.net/test';
+const MONGODB_URI = 'mongodb+srv://Chinh:zalo12345@cluster0.6jf9u.mongodb.net/test'; // URI của atlas 
+
 
 const app = express();
 const store = new MongoDBStore({
@@ -22,12 +22,17 @@ const store = new MongoDBStore({
 });
 const csrfProtection = csrf();
 
+
+
+
+
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images');
   },
   filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
+    cb(null, new Date ().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+    
   }
 });
 

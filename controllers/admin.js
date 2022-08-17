@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
-const { validationResult } = require('express-validator/check');
 const fileHelper = require('../util/file');
+
+const { validationResult } = require('express-validator/check');
 
 const Product = require('../models/product');
 
@@ -47,7 +48,6 @@ exports.postAddProduct = (req, res, next) => {
       hasError: true,
       product: {
         title: title,
-        imageUrl: imageUrl,
         price: price,
         description: description
       },
@@ -194,17 +194,13 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findById(prodId) // tìm đc sản phẩm , xóa hình ảnh và xóa luôn sản phẩm 
+  Product.findById(prodId)
     .then(product => {
       if (!product) {
-        return next(new Error('Product not found !!!'));
+        return next(new Error('Product not found.'));
       }
-
       fileHelper.deleteFile(product.imageUrl);
       return Product.deleteOne({ _id: prodId, userId: req.user._id });
-
-    }).catch(err => {
-      next(err);
     })
     .then(() => {
       console.log('DESTROYED PRODUCT');
